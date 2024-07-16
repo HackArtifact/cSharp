@@ -1,0 +1,15 @@
+C:\Users\brand\Projects\cSharp\DiceRoll\bin\Debug\net8.0\DiceRoll.exe
+C:\Users\brand\Projects\cSharp\DiceRoll\bin\Debug\net8.0\DiceRoll.deps.json
+C:\Users\brand\Projects\cSharp\DiceRoll\bin\Debug\net8.0\DiceRoll.runtimeconfig.json
+C:\Users\brand\Projects\cSharp\DiceRoll\bin\Debug\net8.0\DiceRoll.dll
+C:\Users\brand\Projects\cSharp\DiceRoll\bin\Debug\net8.0\DiceRoll.pdb
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.AssemblyInfoInputs.cache
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.AssemblyInfo.cs
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.csproj.CoreCompileInputs.cache
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.sourcelink.json
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.dll
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\refint\DiceRoll.dll
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.pdb
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\DiceRoll.genruntimeconfig.cache
+C:\Users\brand\Projects\cSharp\DiceRoll\obj\Debug\net8.0\ref\DiceRoll.dll
