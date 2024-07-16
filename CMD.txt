@@ -1,0 +1,8 @@
+To create a new C# project enter in the following:
+dotnet new console -n [Project Name]
+
+To build the project enter:
+dotnet build
+
+To run the project enter:
+dotnet run
