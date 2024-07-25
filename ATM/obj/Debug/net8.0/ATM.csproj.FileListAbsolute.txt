@@ -13,3 +13,12 @@ C:\Users\brand\Projects\cSharp\ATM\obj\Debug\net8.0\refint\ATM.dll
 C:\Users\brand\Projects\cSharp\ATM\obj\Debug\net8.0\ATM.pdb
 C:\Users\brand\Projects\cSharp\ATM\obj\Debug\net8.0\ATM.genruntimeconfig.cache
 C:\Users\brand\Projects\cSharp\ATM\obj\Debug\net8.0\ref\ATM.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\Irony.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\brand\Projects\cSharp\ATM\bin\Debug\net8.0\XLParser.dll
+C:\Users\brand\Projects\cSharp\ATM\obj\Debug\net8.0\ATM.csproj.AssemblyReference.cache
+C:\Users\brand\Projects\cSharp\ATM\obj\Debug\net8.0\ATM.csproj.Up2Date

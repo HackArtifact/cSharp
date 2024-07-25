@@ -2,6 +2,8 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using System.Reflection.Metadata;
+using ClosedXML.Excel;
 
 namespace ATM
 {
@@ -19,6 +21,7 @@ namespace ATM
             var acc3 = new List<string>();       //column 8
             var acc4 = new List<string>();       //column 9
             var cardlessPin = new List<string>();   //column 10
+            var cardlessAmount = new List<string>();   //column 11
 
             using (var rd = new StreamReader("cardInfo.csv"))
             {
@@ -35,6 +38,7 @@ namespace ATM
                     acc3.Add(splits[7]);
                     acc4.Add(splits[8]);
                     cardlessPin.Add(splits[9]);
+                    cardlessAmount.Add(splits[10]);
                 }
             }
 
@@ -56,6 +60,7 @@ namespace ATM
             {
                 for (int i = 0; i < cardNumber.Count; i++)
                 {
+                    // Console.WriteLine(cardNumber[i]);
                     if (cardNumber[i] == user)
                     {
                         position = i; //card number found.
@@ -73,9 +78,12 @@ namespace ATM
                         user = Console.ReadLine();
                         if (user == "1")
                         {
-                            Console.WriteLine(Balance(position, balance, acc1, acc2, acc3, acc4) + "\nPress any key to continue...");
-                            Console.ReadKey();
-                            Console.Clear();
+                            Console.WriteLine(Balance(position, balance, acc1, acc2, acc3, acc4));
+                            ClearScreen();
+                        }
+                        else if (user == "6")
+                        {
+                            Console.WriteLine(CardlessP(position, cardlessPin, cardlessAmount));
                         }
                         else if (user == "7")
                         {
@@ -96,6 +104,7 @@ namespace ATM
             }
         }
 
+        // Enter PIN to account
         static string PIN(int position, List<string> cardPin)
         {
             Console.WriteLine("Card Number Found!\nPlease enter your PIN:");
@@ -115,6 +124,8 @@ namespace ATM
             }
             return "Access Granted!\n";
         }
+
+        // Greetings Message
         static string Greetings(int position, List<string> name, List<string> surname)
         {
             string fullName = $"{name[position]} {surname[position]}";
@@ -122,6 +133,7 @@ namespace ATM
             return $"Hello, {fullName}!\nWhat would you like to do?";
         }
 
+        // Show balance of account until pressing a button
         static string Balance(int position, List<string> balance, List<string> acc1, List<string> acc2, List<string> acc3, List<string> acc4)
         {
             string balanceAmount = $"Your current balance is R{balance[position]}";
@@ -155,10 +167,72 @@ namespace ATM
             return balanceAmount + accounts;
         }
 
+        // Creating Cardless PIN
+        static string CardlessP(int position, List<string> cardlessPin, List<string> cardlessAmount)
+        {
+            // Checking if PIN Exists
+
+            // Creating PIN
+            Console.WriteLine("Would you like to create a cardless pin?\nYes(y) or No(n)");
+            string user = Console.ReadLine();
+
+            if (user.ToLower() == "y")
+            {
+                Console.WriteLine("Please enter cash limit:");
+                cardlessAmount[position] = Console.ReadLine();
+
+                // Generate a random cardless pin
+                Random pin = new Random();
+                cardlessPin[position] = pin.Next(1000, 10000).ToString();
+
+                // Update the CSV file
+                var fileLines = new List<string>();
+
+                // Read all lines from the file
+                using (var rd = new StreamReader("cardInfo.csv"))
+                {
+                    while (!rd.EndOfStream)
+                    {
+                        fileLines.Add(rd.ReadLine());
+                    }
+                }
+
+                // Modify the specific line in the file
+                for (int i = 0; i < fileLines.Count; i++)
+                {
+                    if (i == position)
+                    {
+                        var splits = fileLines[i].Split(';');
+                        splits[9] = cardlessPin[position]; // Update cardless pin (column 10)
+                        splits[10] = cardlessAmount[position]; // Update cardless amount (column 11)
+                        fileLines[i] = string.Join(";", splits);
+                    }
+                }
+
+                // Write the modified content back to the file
+                using (var writer = new StreamWriter("cardInfo.csv"))
+                {
+                    foreach (string line in fileLines)
+                    {
+                        writer.WriteLine(line);
+                    }
+                }
+
+                Console.WriteLine($"Your cardless pin is {cardlessPin[position]} for the amount of R{cardlessAmount[position]}");
+                ClearScreen();
+            }
+
+            return "Your PIN has been created!";
+        }
+
+
+        // Closing balance after transfers/withdraws
         static int ClosingBalance(int position, List<string> balance)
         {
             return Convert.ToInt32(balance);
         }
+
+        // Withdrawing money from account
         static string Withdraw(int position, List<string> balance, List<string> acc1, List<string> acc2, List<string> acc3, List<string> acc4)
         {
             Console.WriteLine("Which account would you like to withdraw from?\nAccount 1, Account 2, Account 3, Account 4 [Please only enter the number.]");
@@ -167,6 +241,13 @@ namespace ATM
             // Check if account is open (not NULL).
             // If not NULL then update account amount and balance amount.
             return $"";
+        }
+
+        static void ClearScreen()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }
