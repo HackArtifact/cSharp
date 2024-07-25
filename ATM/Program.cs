@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace ATM
 {
@@ -12,11 +13,11 @@ namespace ATM
             var cardPin = new List<string>();    //column 2
             var balance = new List<string>();    //column 3
             var name = new List<string>();       //column 4
-            var surname = new List<string>();   //column 5
-            var acc1 = new List<string>();   //column 6
-            var acc2 = new List<string>();   //column 7
-            var acc3 = new List<string>();   //column 8
-            var acc4 = new List<string>();   //column 9
+            var surname = new List<string>();    //column 5
+            var acc1 = new List<string>();       //column 6
+            var acc2 = new List<string>();       //column 7
+            var acc3 = new List<string>();       //column 8
+            var acc4 = new List<string>();       //column 9
             var cardlessPin = new List<string>();   //column 10
 
             using (var rd = new StreamReader("cardInfo.csv"))
@@ -38,23 +39,49 @@ namespace ATM
             }
 
             Console.WriteLine("Welcome To FILMER ATM!\nPlease enter your atm number or cardless withdraw pin:");
-            string user = Console.ReadLine();
+            string user = null;
+
+            // Hiding sensitive information
+            while (true)
+            {
+                var key = System.Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+                user += key.KeyChar;
+            }
+
             int position = -1;
 
             if (user.Length == 16)
             {
-                for (int i = 0; i < cardNumber.Count; i++) {
-                    if (cardNumber[i] == user) {
+                for (int i = 0; i < cardNumber.Count; i++)
+                {
+                    if (cardNumber[i] == user)
+                    {
                         position = i; //card number found.
                         break;
                     }
                 }
 
-                if (position != -1) {   //card number found || user exists
-                    Console.WriteLine(Greetings(position, name, surname, balance));
-                    while (true) {
+                if (position != -1)
+                {   //card number found || user exists
+                    Console.WriteLine(PIN(position, cardPin));
+                    while (true)
+                    {
+                        Console.WriteLine(Greetings(position, name, surname));
                         Console.WriteLine("1. Your Balance.\n2. Withdraw.\n3. Open Account.\n4. Close Account\n5. Change PIN.\n6. Cardless PIN\n7. Logout.");
                         user = Console.ReadLine();
+                        if (user == "1")
+                        {
+                            Console.WriteLine(Balance(position, balance, acc1, acc2, acc3, acc4) + "\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        else if (user == "7")
+                        {
+                            Console.WriteLine("You are now logged out!");
+                            break;
+                        }
                     }
                 }
             }
@@ -69,15 +96,67 @@ namespace ATM
             }
         }
 
-        static string Greetings(int position, List<string> name, List<string> surname, List<string> balance)
+        static string PIN(int position, List<string> cardPin)
+        {
+            Console.WriteLine("Card Number Found!\nPlease enter your PIN:");
+            string input = null;
+            while (true)
+            {
+                var key = System.Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+                input += key.KeyChar;
+            }
+
+            if (input != cardPin[position])
+            {
+                Console.WriteLine("Access DENIED!");
+                Environment.Exit(0);
+            }
+            return "Access Granted!\n";
+        }
+        static string Greetings(int position, List<string> name, List<string> surname)
         {
             string fullName = $"{name[position]} {surname[position]}";
-            string balanceAmount = balance[position];
 
-            return $"Hello, {fullName}! Your current balance is R{balanceAmount}";
+            return $"Hello, {fullName}!\nWhat would you like to do?";
         }
 
-        static int ClosingBalance(int position, List<string> balance) {
+        static string Balance(int position, List<string> balance, List<string> acc1, List<string> acc2, List<string> acc3, List<string> acc4)
+        {
+            string balanceAmount = $"Your current balance is R{balance[position]}";
+            string accounts = $"\nAccount 1 holds R{acc1[position]}";
+
+            if (acc2 != null)
+            {
+                accounts += $"\nAccount 2 holds R{acc2[position]}";
+            }
+            else
+            {
+                accounts += $"\nAccount 2 is closed";
+            }
+            if (acc3 != null)
+            {
+                accounts += $"\nAccount 3 holds R{acc3[position]}";
+            }
+            else
+            {
+                accounts += $"\nAccount 3 is closed";
+            }
+            if (acc4 != null)
+            {
+                accounts += $"\nAccount 4 holds R{acc4[position]}";
+            }
+            else
+            {
+                accounts += $"\nAccount 4 is closed";
+            }
+
+            return balanceAmount + accounts;
+        }
+
+        static int ClosingBalance(int position, List<string> balance)
+        {
             return Convert.ToInt32(balance);
         }
         static string Withdraw(int position, List<string> balance, List<string> acc1, List<string> acc2, List<string> acc3, List<string> acc4)
